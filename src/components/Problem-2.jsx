@@ -4,7 +4,7 @@ import axios from "axios";
 const Problem2 = ({}) => {
     const [showModal, setShowModal] = useState(false);
     const [showType, setShowType] = useState("");
-
+    const [evenChecked, setEvenChecked] = useState(false);
     const [showData, setShowData] = useState([]);
     const [showContactDetails, setShowContactDetails] = useState(false);
     const [contactDetails, setContactDetails] = useState({});
@@ -21,6 +21,10 @@ const Problem2 = ({}) => {
             } catch (error) {
                 console.log(error);
             }
+            if (evenChecked) {
+                let arr = showData.filter((ele) => ele.id % 2 == 0);
+                setShowData([...arr]);
+            }
         };
 
         const getUSContact = async () => {
@@ -33,10 +37,16 @@ const Problem2 = ({}) => {
             } catch (error) {
                 console.log(error);
             }
+
+            if (evenChecked) {
+                let arr = showData.filter((ele) => ele.id % 2 == 0);
+                setShowData([...arr]);
+            }
         };
+
         showType == "all" && getAllContact();
         showType == "us" && getUSContact();
-    }, [showType]);
+    }, [showType, evenChecked]);
 
     const showHandeler = (val) => {
         setShowModal(true);
@@ -135,7 +145,12 @@ const Problem2 = ({}) => {
                             )}
                         </div>
                         <div>
-                            <input type="checkbox" />
+                            <label htmlFor="">Filter by even number</label>
+                            <input
+                                value={evenChecked}
+                                onChange={() => setEvenChecked(!evenChecked)}
+                                type="checkbox"
+                            />
                         </div>
                     </div>
                 </div>
